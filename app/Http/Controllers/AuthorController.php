@@ -12,7 +12,8 @@ class AuthorController extends Controller
 	 */
 	public function index()
 	{
-		//
+		$authors = Author::select('name', 'biography', 'birth_date')->get();
+		return response()->json($authors);
 	}
 
 	/**
