@@ -14,8 +14,9 @@ return new class extends Migration {
 			$table->id();
 			$table->foreignId('author_id')->constrained();
 			$table->string('title', 80)->nullable(false);
-			$table->string('isbn')->unique();			$table->timestamps();
+			$table->string('isbn')->unique();
 			$table->unsignedInteger('published_year')->nullable(false);
+			$table->timestamps();
 		});
 	}
 
