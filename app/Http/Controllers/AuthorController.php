@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AuthorsRequest;
 use App\Models\Author;
 use Illuminate\Http\Request;
 
@@ -17,19 +18,17 @@ class AuthorController extends Controller
 	}
 
 	/**
-	 * Show the form for creating a new resource.
-	 */
-	public function create()
-	{
-		//
-	}
-
-	/**
 	 * Store a newly created resource in storage.
 	 */
-	public function store(Request $request)
+	public function store(AuthorsRequest $request)
 	{
-		//
+		$createAuthor = Author::create([
+			'name' => $request->name,
+			'biography' => $request->biography,
+			'birth_date' => $request->birth_date,
+		]);
+
+		return response()->json(['state' => 'author created successfuly'])->setStatusCode(201);
 	}
 
 	/**
