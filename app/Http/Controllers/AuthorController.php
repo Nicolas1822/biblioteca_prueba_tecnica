@@ -69,19 +69,22 @@ class AuthorController extends Controller
 	}
 
 	/**
-	 * Show the form for editing the specified resource.
-	 */
-	public function edit(string $id)
-	{
-		//
-	}
-
-	/**
 	 * Update the specified resource in storage.
 	 */
-	public function update(Request $request, string $id)
+	public function update(AuthorsRequest $request, string $id)
 	{
-		//
+		$getIdAuthor = Author::findOrFail($id);
+
+		$getIdAuthor->name = $request->name ?? $getIdAuthor->name;
+		$getIdAuthor->biography = $request->biography ?? $getIdAuthor->biography;
+		$getIdAuthor->birth_date = $request->birth_date ?? $getIdAuthor->birth_date;
+
+		$getIdAuthor->save();
+
+		return response()->json([
+			'message' => 'Author update successfully',
+			'author' => $getIdAuthor
+		])->setStatusCode(200);
 	}
 
 	/**
