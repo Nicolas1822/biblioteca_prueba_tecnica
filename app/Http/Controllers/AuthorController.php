@@ -92,6 +92,16 @@ class AuthorController extends Controller
 	 */
 	public function destroy(string $id)
 	{
-		//
+		if (Book::where('author_id', '=', $id)->exists()) {
+			return response()->json([
+				'error' => 'You cannot delete an author with associated books'
+			])->setStatusCode(409);
+		}
+
+		$getIdAuthor = Author::findOrFail($id);
+
+		$getIdAuthor->delete();
+
+		return response()->json(['message' => 'Author Deleted'])->setStatusCode(200);
 	}
 }
