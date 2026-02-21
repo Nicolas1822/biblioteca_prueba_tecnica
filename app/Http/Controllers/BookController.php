@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BooksRequest;
 use App\Models\Book;
+use App\Models\Author;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -17,19 +19,25 @@ class BookController extends Controller
 	}
 
 	/**
-	 * Show the form for creating a new resource.
-	 */
-	public function create()
-	{
-		//
-	}
-
-	/**
 	 * Store a newly created resource in storage.
 	 */
-	public function store(Request $request)
+	public function store(BooksRequest $request)
 	{
-		//
+		$getAuthor = Author::where('id', '=', $request->author_id)->exists();
+		if (!$getAuthor) {
+			return response()->json([
+				'error' => 'author not found in the system'
+			])->setStatusCode(404);
+		}
+
+		Book::create([
+			'author_id' => $request->author_id,
+			'title' => $request->title,
+			'isbn' => $request->isbn,
+			'published_year' => $request->published_year,
+		]);
+
+		return response()->json(['state' => 'book created successfuly'])->setStatusCode(201);
 	}
 
 	/**
