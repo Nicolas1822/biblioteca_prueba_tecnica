@@ -50,19 +50,28 @@ class BookController extends Controller
 	}
 
 	/**
-	 * Show the form for editing the specified resource.
-	 */
-	public function edit(string $id)
-	{
-		//
-	}
-
-	/**
 	 * Update the specified resource in storage.
 	 */
 	public function update(Request $request, string $id)
 	{
-		//
+		$getAuthor = Author::where('id', '=', $request->author_id)->exists();
+		if (!$getAuthor) {
+			return response()->json([
+				'error' => 'author not found in the system'
+			])->setStatusCode(404);
+		}
+
+		$getIdBook = Book::findOrFail($id);
+		$getIdBook->author_id = $request->author_id ?? $getIdBook->author_id;
+		$getIdBook->title = $request->title ?? $getIdBook->titlle;
+		$getIdBook->isbn = $request->isbn ?? $getIdBook->isbn;
+		$getIdBook->published_year = $request->published_year ?? $getIdBook->published_year;
+		$getIdBook->save();
+
+		return response()->json([
+			'mesage' => 'Book updated succesfully',
+			$getIdBook
+		])->setStatusCode(200);
 	}
 
 	/**
