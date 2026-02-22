@@ -79,6 +79,10 @@ class BookController extends Controller
 	 */
 	public function destroy(string $id)
 	{
-		//
+		$getIdBook = Book::findOrFail($id);
+		$getIdBook->delete();
+				return response()->json([
+			'mesage' => 'Book deleted succesfully',
+		])->setStatusCode(200);
 	}
 }
