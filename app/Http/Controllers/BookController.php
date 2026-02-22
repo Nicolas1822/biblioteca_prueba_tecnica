@@ -45,7 +45,8 @@ class BookController extends Controller
 	 */
 	public function show(string $id)
 	{
-		//
+		$getIdBook = Book::findOrFail($id);
+		return response()->json([$getIdBook])->setStatusCode(200);
 	}
 
 	/**
